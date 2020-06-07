@@ -6,12 +6,20 @@ import com.mongodb.MongoWriteConcernException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.yxj.ethoca.Exceptions.DataQueryException;
 import com.yxj.ethoca.Exceptions.DataSaveException;
+import com.yxj.ethoca.dto.LineItem;
 import com.yxj.ethoca.dto.PurchaseOrder;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
+import static com.sun.tools.doclint.Entity.and;
 import static com.yxj.ethoca.Constants.Constants.PURCHASE_ORDER_STATUS_IN_PROGRESS;
 
 @Repository
@@ -54,6 +62,46 @@ public class PurchaseOrderRepository {
             //todo: add logging
             System.out.println(e.getMessage());
             throw new DataSaveException();
+        }
+
+    }
+
+    public PurchaseOrder retrieveMostRecentPurchaseOrder (String username) throws DataQueryException {
+
+        try {
+            MongoCollection<PurchaseOrder> collection = mongoDatabase.getCollection("PurchaseOrders", PurchaseOrder.class);
+
+
+            // we are making an assumption here that each user may only have a single 'In Progress' purchase order
+            return collection.find(and(eq("purchaseOrderOwner", username), eq("status", PURCHASE_ORDER_STATUS_IN_PROGRESS))).first();
+
+        } catch (MongoException mongoException) {
+            //todo: add logging
+            System.out.println(mongoException.getMessage());
+            throw new DataQueryException();
+        } catch (Exception e) {
+            //todo: add logging
+            System.out.println(e.getMessage());
+            throw new DataQueryException();
+        }
+
+    }
+
+    public void updatePurchaseOrder (String productId, List<LineItem> lineItems) throws DataQueryException {
+
+        try {
+            MongoCollection<PurchaseOrder> collection = mongoDatabase.getCollection("PurchaseOrders", PurchaseOrder.class);
+
+            collection.updateOne (eq("productId", productId), set("lineItems", lineItems));
+
+        } catch (MongoException mongoException) {
+            //todo: add logging
+            System.out.println(mongoException.getMessage());
+            throw new DataQueryException();
+        } catch (Exception e) {
+            //todo: add logging
+            System.out.println(e.getMessage());
+            throw new DataQueryException();
         }
 
     }
