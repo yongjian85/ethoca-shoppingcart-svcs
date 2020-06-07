@@ -2,11 +2,25 @@ package com.yxj.ethoca.dto;
 
 import org.bson.types.ObjectId;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import static com.yxj.ethoca.Constants.Constants.PAYLOAD_VALIDATION_ALPHANUMERICS;
+import static com.yxj.ethoca.Constants.Constants.PAYLOAD_VALIDATION_ALPHANUMERICS_WITH_SPACE;
+
 public class Product {
 
     private ObjectId id;
+
+    @NotBlank
+    @Pattern(regexp=PAYLOAD_VALIDATION_ALPHANUMERICS, message= "Product Id must only contain alphaNumerics")
     private String productId;
+
+    @NotBlank
+    @Pattern(regexp=PAYLOAD_VALIDATION_ALPHANUMERICS_WITH_SPACE, message= "Product Name must only contain alphaNumerics and spaces")
     private String productName;
+
+    //Not needed as part of request payloads
     private String productDescription;
 
 

@@ -2,13 +2,18 @@ package com.yxj.ethoca.dto;
 
 import org.bson.types.ObjectId;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class PurchaseOrder {
 
+    @Valid
     private List<LineItem> lineItems; //list of items in this purchase order
     private ObjectId id;
-    private String PurchaseOrderOwner; // person who placed this order
+
+    @NotBlank
+    private String purchaseOrderOwner; // person who placed this order
     private String status; //status of this order: ie: inProgress / submitted / cancelled
 
     public ObjectId getId() {
@@ -33,11 +38,11 @@ public class PurchaseOrder {
 
 
     public String getPurchaseOrderOwner() {
-        return PurchaseOrderOwner;
+        return this.purchaseOrderOwner;
     }
 
     public void setPurchaseOrderOwner(String purchaseOrderOwner) {
-        PurchaseOrderOwner = purchaseOrderOwner;
+        this.purchaseOrderOwner = purchaseOrderOwner;
     }
 
     public String getStatus() {

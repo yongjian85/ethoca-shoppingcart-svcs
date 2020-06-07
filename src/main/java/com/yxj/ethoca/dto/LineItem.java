@@ -1,7 +1,14 @@
 package com.yxj.ethoca.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import static com.yxj.ethoca.Constants.Constants.MAX_PURCHASE_LIMIT;
+
 public class LineItem extends Product {
 
+    @Min(1)
+    @Max(MAX_PURCHASE_LIMIT)
     private int quantity;
 
     private String productDescription;
