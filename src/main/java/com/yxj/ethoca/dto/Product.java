@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 public class Product {
 
     private ObjectId id;
+    private String productId;
     private String productName;
     private String productDescription;
 
@@ -14,8 +15,16 @@ public class Product {
         this.id = id;
     }
 
+    public ObjectId getId() {
+        return id;
+    }
+
     public String getProductId() {
-        return id.toHexString();
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
 
