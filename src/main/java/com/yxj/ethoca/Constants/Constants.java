@@ -11,5 +11,6 @@ public class Constants {
     public static final String PAYLOAD_VALIDATION_ALPHANUMERICS = "[A-Za-z0-9]+";
 
     public static final String PAYLOAD_VALIDATION_ALPHANUMERICS_WITH_SPACE = "[A-Za-z0-9][A-Za-z0-9 ]+";
+    public static final String PAYLOAD_VALIDATION_SCRIPT_TAGS = "[<>]+";
 
 }

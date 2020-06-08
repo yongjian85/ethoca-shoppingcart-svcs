@@ -21,7 +21,6 @@ import java.util.List;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
-import static com.sun.tools.doclint.Entity.and;
 import static com.yxj.ethoca.Constants.Constants.PURCHASE_ORDER_STATUS_CANCELLED;
 import static com.yxj.ethoca.Constants.Constants.PURCHASE_ORDER_STATUS_IN_PROGRESS;
 

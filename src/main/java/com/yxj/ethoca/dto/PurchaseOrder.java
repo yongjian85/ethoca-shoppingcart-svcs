@@ -3,11 +3,10 @@ package com.yxj.ethoca.dto;
 import org.bson.types.ObjectId;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
+
+import static com.yxj.ethoca.Constants.Constants.PAYLOAD_VALIDATION_ALPHANUMERICS;
 
 public class PurchaseOrder {
 
@@ -18,6 +17,7 @@ public class PurchaseOrder {
     private ObjectId id;
 
     @NotBlank
+    @Pattern(regexp=PAYLOAD_VALIDATION_ALPHANUMERICS, message= "Purchase Order Owner must only contain alphaNumerics")
     private String purchaseOrderOwner; // person who placed this order
     private String status; //status of this order: ie: inProgress / submitted / cancelled
 

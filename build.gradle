@@ -16,6 +16,15 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+    filter {
+        //include all tests from package
+        includeTestsMatching "com.yxj.ethoca.tests.*"
+
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.mongodb:mongodb-driver-sync:3.11.2'
