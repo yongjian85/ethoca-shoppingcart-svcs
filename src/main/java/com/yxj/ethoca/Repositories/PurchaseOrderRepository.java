@@ -6,6 +6,7 @@ import com.mongodb.MongoWriteConcernException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
 import com.yxj.ethoca.Exceptions.DataQueryException;
 import com.yxj.ethoca.Exceptions.DataSaveException;
 import com.yxj.ethoca.dto.LineItem;
@@ -87,21 +88,31 @@ public class PurchaseOrderRepository {
 
     }
 
-    public void updatePurchaseOrder (String productId, List<LineItem> lineItems) throws DataQueryException {
+    public boolean updatePurchaseOrder (String purchaseId, List<LineItem> lineItems) throws DataSaveException {
 
         try {
             MongoCollection<PurchaseOrder> collection = mongoDatabase.getCollection("PurchaseOrders", PurchaseOrder.class);
 
-            collection.updateOne (eq("productId", productId), set("lineItems", lineItems));
+            //we want to make sure that this particular document is still "In Progress" when we are doing the update
+            //or else this record was already processed so we shouldnt update the lineitems
+            UpdateResult updateResult = collection.updateOne (
+                    and (eq("purchaseId", purchaseId), eq("status", PURCHASE_ORDER_STATUS_IN_PROGRESS)),
+                    set("lineItems", lineItems));
+
+            if (updateResult.getMatchedCount() > 0) { // found the matching record
+                return true;
+            } else {
+                return false;
+            }
 
         } catch (MongoException mongoException) {
             //todo: add logging
             System.out.println(mongoException.getMessage());
-            throw new DataQueryException();
+            throw new DataSaveException();
         } catch (Exception e) {
             //todo: add logging
             System.out.println(e.getMessage());
-            throw new DataQueryException();
+            throw new DataSaveException();
         }
 
     }

@@ -3,11 +3,14 @@ package com.yxj.ethoca.controllers;
 import com.yxj.ethoca.Exceptions.DataQueryException;
 import com.yxj.ethoca.Exceptions.DataSaveException;
 import com.yxj.ethoca.Request.PostPurchaseOrderRequest;
+import com.yxj.ethoca.Request.PutPurchaseOrderSaveRequest;
+import com.yxj.ethoca.Response.BaseResponse;
 import com.yxj.ethoca.Response.GetPurchaseOrderResponse;
 import com.yxj.ethoca.Response.PostPurchaseOrderResponse;
 import com.yxj.ethoca.dto.PurchaseOrder;
 import com.yxj.ethoca.services.PurchaseOrderService;
 import com.yxj.ethoca.validators.PostPurchaseOrderValidator;
+import com.yxj.ethoca.validators.PutPurchaseOrderSaveValidator;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class PurchaseOrderController {
 
     @Autowired
     private PostPurchaseOrderValidator postPurchaseOrderValidator;
+
+    @Autowired
+    private PutPurchaseOrderSaveValidator putPurchaseOrderSaveValidator;
 
 
     @PostMapping(value = "/purchaseOrder")
@@ -113,6 +119,54 @@ public class PurchaseOrderController {
             errors.add(e.getMessage());
             getPurchaseOrderResponse.setErrors(errors);
             return ResponseEntity.status(501).body(getPurchaseOrderResponse);
+        }
+
+
+    }
+
+    /*
+    Gets the most recent purchase order from the user that is in "In Progress" state
+    If Authentication is completed, then we do not need to get the path variable from the Get Request
+     */
+    @PutMapping (value = "/purchaseOrder/save")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Purchase Order was updated successfully", response = BaseResponse.class),
+            @ApiResponse(code = 400, message = "Payload body contained invalid data", response = MethodArgumentNotValidException.class),
+            @ApiResponse(code = 404, message = "Purchase Order cannot be updated", response = BaseResponse.class),
+            @ApiResponse(code = 500, message = "Unable to save data to repository", response = BaseResponse.class),
+            @ApiResponse(code = 501, message = "Unknown Exception, investigation needed", response = BaseResponse.class)})
+
+    public ResponseEntity<BaseResponse> savePurchaseOrder(@RequestBody @Valid PutPurchaseOrderSaveRequest putPurchaseOrderSaveRequest) {
+        BaseResponse baseResponse = new BaseResponse();
+
+        List<String> errors = putPurchaseOrderSaveValidator.validate(putPurchaseOrderSaveRequest);
+
+        if (errors.size() > 0) {
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(400).body(baseResponse);
+        }
+
+
+        try {
+
+            boolean isDocumentUpdated = purchaseOrderService.updatePurchaseOrder(putPurchaseOrderSaveRequest.getPurchaseId(),
+                                                        putPurchaseOrderSaveRequest.getLineItems());
+            if (isDocumentUpdated) {
+                return ResponseEntity.status(200).body(baseResponse);
+            } else {
+                errors.add(String.format("Purchase Id: %s was not in 'In Progress' status", putPurchaseOrderSaveRequest.getPurchaseId()));
+                baseResponse.setErrors(errors);
+                return ResponseEntity.status(404).body(baseResponse);
+            }
+
+        } catch (DataSaveException dataQueryException) {
+            errors.add(dataQueryException.getMessage());
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(500).body(baseResponse);
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(501).body(baseResponse);
         }
 
 
