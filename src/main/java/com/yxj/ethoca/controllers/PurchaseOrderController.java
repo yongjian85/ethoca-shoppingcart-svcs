@@ -97,6 +97,10 @@ public class PurchaseOrderController {
             errors.add("Username is required");
             getPurchaseOrderResponse.setErrors(errors);
             return ResponseEntity.status(400).body(getPurchaseOrderResponse);
+        } else if (username.contains("<") || username.contains(">")) { //stopping any sort of scripting tag here
+            errors.add("Username contains illegal characters");
+            getPurchaseOrderResponse.setErrors(errors);
+            return ResponseEntity.status(400).body(getPurchaseOrderResponse);
         }
 
         try {
@@ -125,8 +129,9 @@ public class PurchaseOrderController {
     }
 
     /*
-    Gets the most recent purchase order from the user that is in "In Progress" state
-    If Authentication is completed, then we do not need to get the path variable from the Get Request
+    This endpoint serves two purposes:
+    1: update the line items and allow the user to continue editing
+    2: update the line items and submit the request as final
      */
     @PutMapping (value = "/purchaseOrder")
     @ApiResponses(value = {
@@ -156,6 +161,57 @@ public class PurchaseOrderController {
                 return ResponseEntity.status(200).body(baseResponse);
             } else {
                 errors.add(String.format("Purchase Id: %s was not in 'In Progress' status", putPurchaseOrderSaveRequest.getPurchaseId()));
+                baseResponse.setErrors(errors);
+                return ResponseEntity.status(404).body(baseResponse);
+            }
+
+        } catch (DataSaveException dataQueryException) {
+            errors.add(dataQueryException.getMessage());
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(500).body(baseResponse);
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(501).body(baseResponse);
+        }
+
+
+    }
+
+    /*
+    This endpoint cancels the purchase order by Id
+    */
+    @DeleteMapping (value = "/purchaseOrder/{purchaseId}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Purchase Order was cancelled successfully", response = BaseResponse.class),
+            @ApiResponse(code = 400, message = "Payload body contained invalid data", response = MethodArgumentNotValidException.class),
+            @ApiResponse(code = 404, message = "Purchase Order cannot be cancelled", response = BaseResponse.class),
+            @ApiResponse(code = 500, message = "Unable to save data to repository", response = BaseResponse.class),
+            @ApiResponse(code = 501, message = "Unknown Exception, investigation needed", response = BaseResponse.class)})
+
+    public ResponseEntity<BaseResponse> cancelPurchaseOrder(@PathVariable String purchaseId) {
+        BaseResponse baseResponse = new BaseResponse();
+
+        List<String> errors = new ArrayList<>();
+
+        if (null == purchaseId || purchaseId.isEmpty()) {
+            errors.add("purchaseId is required");
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(400).body(baseResponse);
+        } else if (purchaseId.contains("<") || purchaseId.contains(">")) { //stopping any sort of scripting tag here
+            errors.add("purchaseId contains illegal characters");
+            baseResponse.setErrors(errors);
+            return ResponseEntity.status(400).body(baseResponse);
+        }
+
+
+        try {
+
+            boolean isDocumentUpdated = purchaseOrderService.cancelPurchaseOrder(purchaseId);
+            if (isDocumentUpdated) {
+                return ResponseEntity.status(200).body(baseResponse);
+            } else {
+                errors.add(String.format("Purchase Id: %s was not in 'In Progress' status", purchaseId));
                 baseResponse.setErrors(errors);
                 return ResponseEntity.status(404).body(baseResponse);
             }

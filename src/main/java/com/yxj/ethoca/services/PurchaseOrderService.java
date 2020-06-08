@@ -28,4 +28,8 @@ public class PurchaseOrderService {
          return purchaseOrderRepository.updatePurchaseOrder(purchaseId, lineItems, status);
     }
 
+    public boolean cancelPurchaseOrder (String purchaseId) throws DataSaveException {
+        return purchaseOrderRepository.cancelPurchaseOrder(purchaseId);
+    }
+
 }
