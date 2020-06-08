@@ -24,8 +24,8 @@ public class PurchaseOrderService {
         return purchaseOrderRepository.retrieveMostRecentPurchaseOrder(user);
     }
 
-    public boolean updatePurchaseOrder (String purchaseId, List<LineItem> lineItems) throws DataSaveException {
-         return purchaseOrderRepository.updatePurchaseOrder(purchaseId, lineItems);
+    public boolean updatePurchaseOrder (String purchaseId, List<LineItem> lineItems, String status) throws DataSaveException {
+         return purchaseOrderRepository.updatePurchaseOrder(purchaseId, lineItems, status);
     }
 
 }

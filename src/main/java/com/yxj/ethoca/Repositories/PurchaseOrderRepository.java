@@ -6,6 +6,7 @@ import com.mongodb.MongoWriteConcernException;
 import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 import com.yxj.ethoca.Exceptions.DataQueryException;
 import com.yxj.ethoca.Exceptions.DataSaveException;
@@ -88,7 +89,7 @@ public class PurchaseOrderRepository {
 
     }
 
-    public boolean updatePurchaseOrder (String purchaseId, List<LineItem> lineItems) throws DataSaveException {
+    public boolean updatePurchaseOrder (String purchaseId, List<LineItem> lineItems, String status) throws DataSaveException {
 
         try {
             MongoCollection<PurchaseOrder> collection = mongoDatabase.getCollection("PurchaseOrders", PurchaseOrder.class);
@@ -97,7 +98,8 @@ public class PurchaseOrderRepository {
             //or else this record was already processed so we shouldnt update the lineitems
             UpdateResult updateResult = collection.updateOne (
                     and (eq("purchaseId", purchaseId), eq("status", PURCHASE_ORDER_STATUS_IN_PROGRESS)),
-                    set("lineItems", lineItems));
+                    Updates.combine(Updates.set("lineItems", lineItems),
+                            Updates.set("status", status)));
 
             if (updateResult.getMatchedCount() > 0) { // found the matching record
                 return true;

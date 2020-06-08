@@ -128,7 +128,7 @@ public class PurchaseOrderController {
     Gets the most recent purchase order from the user that is in "In Progress" state
     If Authentication is completed, then we do not need to get the path variable from the Get Request
      */
-    @PutMapping (value = "/purchaseOrder/save")
+    @PutMapping (value = "/purchaseOrder")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Purchase Order was updated successfully", response = BaseResponse.class),
             @ApiResponse(code = 400, message = "Payload body contained invalid data", response = MethodArgumentNotValidException.class),
@@ -150,7 +150,8 @@ public class PurchaseOrderController {
         try {
 
             boolean isDocumentUpdated = purchaseOrderService.updatePurchaseOrder(putPurchaseOrderSaveRequest.getPurchaseId(),
-                                                        putPurchaseOrderSaveRequest.getLineItems());
+                                                        putPurchaseOrderSaveRequest.getLineItems(),
+                                                        putPurchaseOrderSaveRequest.getStatus());
             if (isDocumentUpdated) {
                 return ResponseEntity.status(200).body(baseResponse);
             } else {
