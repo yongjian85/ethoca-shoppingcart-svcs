@@ -23,7 +23,15 @@ public class Product {
     //Not needed as part of request payloads
     private String productDescription;
 
+    private String productImg;
 
+    public String getProductImg() {
+        return productImg;
+    }
+
+    public void setProductImg(String productImg) {
+        this.productImg = productImg;
+    }
 
     public void setId(ObjectId id) {
         this.id = id;
