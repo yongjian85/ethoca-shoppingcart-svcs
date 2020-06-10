@@ -19,6 +19,8 @@ public class PurchaseOrder {
     @NotBlank
     @Pattern(regexp=PAYLOAD_VALIDATION_ALPHANUMERICS, message= "Purchase Order Owner must only contain alphaNumerics")
     private String purchaseOrderOwner; // person who placed this order
+
+    @NotBlank
     private String status; //status of this order: ie: inProgress / submitted / cancelled
 
     public ObjectId getId() {
