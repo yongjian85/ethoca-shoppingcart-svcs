@@ -19,7 +19,8 @@ public class PutPurchaseOrderSaveValidator {
 
         List<String> errorList = new ArrayList<>();
 
-        errorList.addAll(commonPurchaseOrderValidator.validateLineItems(putPurchaseOrderSaveRequest.getLineItems()));
+        errorList.addAll(commonPurchaseOrderValidator.validateLineItems(putPurchaseOrderSaveRequest.getLineItems(),
+                            putPurchaseOrderSaveRequest.getStatus()));
 
         return errorList;
     }

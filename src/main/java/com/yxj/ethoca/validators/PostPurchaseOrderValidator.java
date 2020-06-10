@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.yxj.ethoca.Constants.Constants.PURCHASE_ORDER_STATUS_IN_PROGRESS;
+import static com.yxj.ethoca.Constants.Constants.PURCHASE_ORDER_STATUS_SUBMITTED;
+
 @Component
 public class PostPurchaseOrderValidator {
 
@@ -20,7 +23,9 @@ public class PostPurchaseOrderValidator {
 
         List<String> errorList = new ArrayList<>();
 
-        errorList.addAll(commonPurchaseOrderValidator.validateLineItems(postPurchaseOrderRequest.getPurchaseOrder().getLineItems()));
+        errorList.addAll(commonPurchaseOrderValidator.validateLineItems(postPurchaseOrderRequest.getPurchaseOrder().getLineItems(),
+                            postPurchaseOrderRequest.getPurchaseOrder().getStatus()));
+
 
         return errorList;
     }
