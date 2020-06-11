@@ -11,4 +11,11 @@ public class PostPurchaseOrderResponse extends BaseResponse {
     public void setPurchaseOrderId(String purchaseOrderId) {
         this.purchaseOrderId = purchaseOrderId;
     }
+
+    @Override
+    public String toString() {
+        return "PostPurchaseOrderResponse{" +
+                "purchaseOrderId='" + purchaseOrderId + '\'' +
+                "} " + super.toString();
+    }
 }

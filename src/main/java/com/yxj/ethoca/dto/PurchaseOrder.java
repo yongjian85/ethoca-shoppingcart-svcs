@@ -59,4 +59,14 @@ public class PurchaseOrder {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "PurchaseOrder{" +
+                "lineItems=" + lineItems +
+                ", id=" + id +
+                ", purchaseOrderOwner='" + purchaseOrderOwner + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

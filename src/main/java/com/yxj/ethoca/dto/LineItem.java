@@ -33,4 +33,11 @@ public class LineItem extends Product {
     }
 
 
+    @Override
+    public String toString() {
+        return "LineItem{" +
+                "quantity=" + quantity +
+                ", productDescription='" + productDescription + '\'' +
+                "} " + super.toString();
+    }
 }
