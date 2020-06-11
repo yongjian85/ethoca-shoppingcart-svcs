@@ -32,7 +32,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ]\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -74,7 +74,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaserOrderOwner\": \"\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -116,7 +116,133 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaserOrderOwner\": \"!@#$%^&*()<>\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"!@#$%^&*()<>\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "purchase order null status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "97c99578-88be-4e9e-a470-01d3e6cc2283",
+										"exec": [
+											"pm.test(\"Status test\", function () {",
+											"    pm.response.to.have.status(400);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yongTest\"\n   \n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "purchase order empty status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4d882a86-1a42-4230-96aa-34aba2a17819",
+										"exec": [
+											"pm.test(\"Status test\", function () {",
+											"    pm.response.to.have.status(400);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yongTest\",\n    \"status\": \"\"\n   \n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "purchase order status invalid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7453edd8-1695-4d85-8acd-15ac8e2a5fdf",
+										"exec": [
+											"pm.test(\"Status test\", function () {",
+											"    pm.response.to.have.status(400);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yongTest\",\n    \"status\": \"cancelled\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -158,7 +284,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -200,7 +326,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -242,7 +368,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"!@#$%^&*()<>\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"!@#$%^&*()<>\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -284,7 +410,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n       \n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n       \n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -326,7 +452,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -368,7 +494,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"!@#$%^&*()<>\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"!@#$%^&*()<>\",\n        \"quantity\": 98\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -410,7 +536,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\"\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\"\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -452,7 +578,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 0\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 0\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -494,7 +620,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 101\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 101\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -536,7 +662,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 1\n      },\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 1\n      },\n      {\n      \t\"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"bananas\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -578,7 +704,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -620,7 +746,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"purchaserOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"purchaserOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -663,7 +789,7 @@
 					"name": "postive",
 					"item": [
 						{
-							"name": "create purchase Order",
+							"name": "create purchase Order in progress",
 							"event": [
 								{
 									"listen": "test",
@@ -686,7 +812,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -708,7 +834,7 @@
 							"response": []
 						},
 						{
-							"name": "cancel order",
+							"name": "cleanup - cancel order In Progress",
 							"event": [
 								{
 									"listen": "test",
@@ -743,6 +869,50 @@
 									"path": [
 										"purchaseOrder",
 										"{{postPurchaseOrder_purchaseOrderId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create purchase Order Submitted",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b3e62037-3b09-471a-8c3f-8e414d90d5b4",
+										"exec": [
+											"pm.test(\"Status test\", function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"Submitted\"\n   \n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
 									]
 								}
 							},
@@ -795,7 +965,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\"\n   \n  }\n}",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -957,6 +1127,90 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "null status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"lineItems\": [\n            {\n                \"id\": null,\n                \"productId\": \"5edafd4a8a46b0218cea6d39\",\n                \"productName\": \"Banana\",\n                \"productDescription\": null,\n                \"quantity\": 11\n            },\n            {\n                \"id\": null,\n                \"productId\": \"5edafc1d33473af4513a2ed3\",\n                \"productName\": \"Apple\",\n                \"productDescription\": null,\n                \"quantity\": 10\n            }\n        ],\n        \"purchaseId\": \"yong\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "empty status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"lineItems\": [\n            {\n                \"id\": null,\n                \"productId\": \"5edafd4a8a46b0218cea6d39\",\n                \"productName\": \"Banana\",\n                \"productDescription\": null,\n                \"quantity\": 11\n            },\n            {\n                \"id\": null,\n                \"productId\": \"5edafc1d33473af4513a2ed3\",\n                \"productName\": \"Apple\",\n                \"productDescription\": null,\n                \"quantity\": 10\n            }\n        ],\n        \"purchaseId\": \"yong\",\n        \"status\": \"\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "invalid status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"lineItems\": [\n            {\n                \"id\": null,\n                \"productId\": \"5edafd4a8a46b0218cea6d39\",\n                \"productName\": \"Banana\",\n                \"productDescription\": null,\n                \"quantity\": 11\n            },\n            {\n                \"id\": null,\n                \"productId\": \"5edafc1d33473af4513a2ed3\",\n                \"productName\": \"Apple\",\n                \"productDescription\": null,\n                \"quantity\": 10\n            }\n        ],\n        \"purchaseId\": \"yong\",\n        \"status\": \"!@#$%^&*(\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"event": [
@@ -975,6 +1229,317 @@
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Post purchaseOrder for update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e8b3ad1c-1e35-4b8c-b7e0-746caf4e8d88",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"pm.environment.set(\"PutPurchaseOrder_purchaseOrderId\", jsonData.purchaseOrderId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update In Progress payload for PUT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bff74e50-35b6-4b6f-a4bb-8fed405c44ec",
+										"exec": [
+											"pm.test(\"PutPurchaseOrder Positive tests\", function () {",
+											"    pm.response.to.have.status(200);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"lineItems\": [\n            {\n                \"id\": null,\n                \"productId\": \"5edafd4a8a46b0218cea6d39\",\n                \"productName\": \"Banana\",\n                \"productDescription\": null,\n                \"quantity\": 1\n            },\n            {\n                \"id\": null,\n                \"productId\": \"5edafc1d33473af4513a2ed3\",\n                \"productName\": \"Apple\",\n                \"productDescription\": null,\n                \"quantity\": 1\n            }\n        ],\n        \"purchaseId\": \"{{PutPurchaseOrder_purchaseOrderId}}\",\n        \"status\": \"In Progress\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update Submitted payload for PUT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cc332217-6ba2-4da6-9223-b3b8ad0072fe",
+										"exec": [
+											"pm.test(\"PutPurchaseOrder Positive tests\", function () {",
+											"    pm.response.to.have.status(200);",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"lineItems\": [\n            {\n                \"id\": null,\n                \"productId\": \"5edafd4a8a46b0218cea6d39\",\n                \"productName\": \"Banana\",\n                \"productDescription\": null,\n                \"quantity\": 11\n            },\n            {\n                \"id\": null,\n                \"productId\": \"5edafc1d33473af4513a2ed3\",\n                \"productName\": \"Apple\",\n                \"productDescription\": null,\n                \"quantity\": 10\n            }\n        ],\n        \"purchaseId\": \"{{PutPurchaseOrder_purchaseOrderId}}\",\n        \"status\": \"Submitted\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/purchaseOrder",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"purchaseOrder"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GetProducts",
+			"item": [
+				{
+					"name": "get products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5df3b703-e3e9-43cf-8faa-75f10689ef13",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "DeleteTest",
+			"item": [
+				{
+					"name": "create purchase Order in progress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0ce9a00b-e6d0-446a-a8ab-7dce4cb121ab",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"deletePurchaseOrder_purchaseOrderId\", jsonData.purchaseOrderId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"purchaseOrder\": {\n   \n    \"lineItems\": [\n      {\n        \"productId\": \"5edafd4a8a46b0218cea6d39\",\n        \"productName\": \"Bananas\",\n        \"quantity\": 98\n      },\n{\n        \"productId\": \"5edafd788a46b0218cea6d3a\",\n        \"productName\": \"apples\",\n        \"quantity\": 2\n      }\n    ],\n    \"purchaseOrderOwner\": \"yong\",\n    \"status\": \"In Progress\"\n   \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/purchaseOrder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"purchaseOrder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel order In Progress",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7bed29dd-a1f4-4bbd-8780-f3018c9755fc",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/purchaseOrder/{{deletePurchaseOrder_purchaseOrderId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"purchaseOrder",
+								"{{deletePurchaseOrder_purchaseOrderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel order already cancelled",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "134a8d45-e01d-4729-aff9-02293cd1b243",
+								"exec": [
+									"pm.test(\"Status test\", function () {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/purchaseOrder/{{deletePurchaseOrder_purchaseOrderId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"purchaseOrder",
+								"{{deletePurchaseOrder_purchaseOrderId}}"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
