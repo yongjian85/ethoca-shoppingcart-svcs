@@ -10,8 +10,11 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 import com.yxj.ethoca.Exceptions.DataQueryException;
 import com.yxj.ethoca.Exceptions.DataSaveException;
+import com.yxj.ethoca.controllers.PurchaseOrderController;
 import com.yxj.ethoca.dto.LineItem;
 import com.yxj.ethoca.dto.PurchaseOrder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +33,9 @@ public class PurchaseOrderRepository {
     @Autowired
     MongoDatabase mongoDatabase;
 
+    private static final Logger logger = LogManager.getLogger(PurchaseOrderRepository.class);
+
+
     public String createPurchaseOrder (PurchaseOrder purchaseOrder) throws DataSaveException {
 
         try {
@@ -45,24 +51,21 @@ public class PurchaseOrderRepository {
 
             return id.toHexString();
         } catch (MongoWriteException e) {
-            //todo: add logging
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             throw new DataSaveException();
 
         } catch (MongoWriteConcernException mongoWriteConcernException) {
-            System.out.println(mongoWriteConcernException.getMessage());
+            logger.error(mongoWriteConcernException.getMessage());
             throw new DataSaveException();
-            //todo: add logging
+
         } catch (MongoCommandException mongoCommandException) {
-            //todo: add logging
-            System.out.println(mongoCommandException.getMessage());
+           logger.error(mongoCommandException.getErrorMessage());
             throw new DataSaveException();
         } catch (MongoException mongoException) {
-            //todo: add logging
-            System.out.println(mongoException.getMessage());
+            logger.error(mongoException.getMessage());
             throw new DataSaveException();
         } catch (Exception e) {
-            //todo: add logging
+            logger.error(e.getMessage());
             System.out.println(e.getMessage());
             throw new DataSaveException();
         }
@@ -79,12 +82,11 @@ public class PurchaseOrderRepository {
             return collection.find(and(eq("purchaseOrderOwner", username), eq("status", PURCHASE_ORDER_STATUS_IN_PROGRESS))).first();
 
         } catch (MongoException mongoException) {
-            //todo: add logging
-            System.out.println(mongoException.getMessage());
+
+        logger.error(mongoException.getMessage());
             throw new DataQueryException();
         } catch (Exception e) {
-            //todo: add logging
-            System.out.println(e.getMessage());
+           logger.error(e.getMessage());
             throw new DataQueryException();
         }
 
@@ -109,12 +111,10 @@ public class PurchaseOrderRepository {
             }
 
         } catch (MongoException mongoException) {
-            //todo: add logging
-            System.out.println(mongoException.getMessage());
+           logger.error(mongoException.getMessage());
             throw new DataSaveException();
         } catch (Exception e) {
-            //todo: add logging
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             throw new DataSaveException();
         }
 
@@ -138,12 +138,10 @@ public class PurchaseOrderRepository {
             }
 
         } catch (MongoException mongoException) {
-            //todo: add logging
-            System.out.println(mongoException.getMessage());
+           logger.error(mongoException.getMessage());
             throw new DataSaveException();
         } catch (Exception e) {
-            //todo: add logging
-            System.out.println(e.getMessage());
+           logger.error(e.getMessage());
             throw new DataSaveException();
         }
 

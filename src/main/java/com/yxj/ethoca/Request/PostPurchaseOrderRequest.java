@@ -18,4 +18,11 @@ public class PostPurchaseOrderRequest {
     public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
+
+    @Override
+    public String toString() {
+        return "PostPurchaseOrderRequest{" +
+                "purchaseOrder=" + purchaseOrder +
+                '}';
+    }
 }

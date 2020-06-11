@@ -13,4 +13,11 @@ public class BaseResponse {
     public void setErrors(List<String> errors) {
         this.errors = errors;
     }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "errors=" + errors +
+                '}';
+    }
 }

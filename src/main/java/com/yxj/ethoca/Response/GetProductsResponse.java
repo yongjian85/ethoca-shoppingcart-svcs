@@ -15,4 +15,11 @@ public class GetProductsResponse extends BaseResponse {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+    @Override
+    public String toString() {
+        return "GetProductsResponse{" +
+                "products=" + products +
+                "} " + super.toString();
+    }
 }

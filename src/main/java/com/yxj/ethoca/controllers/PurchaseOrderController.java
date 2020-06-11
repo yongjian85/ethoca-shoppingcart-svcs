@@ -13,6 +13,9 @@ import com.yxj.ethoca.validators.PostPurchaseOrderValidator;
 import com.yxj.ethoca.validators.PutPurchaseOrderSaveValidator;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,7 +37,14 @@ public class PurchaseOrderController {
     @Autowired
     private PutPurchaseOrderSaveValidator putPurchaseOrderSaveValidator;
 
+    private static final Logger logger = LogManager.getLogger(PurchaseOrderController.class);
 
+
+
+    /*
+    Creates either an 'In Progress' purchaseOrder to be retrieved later (save function)
+    or directly creates a 'Submitted' order, implying that the customer has directly purchased the item without an intermittent save
+     */
     @PostMapping(value = "/purchaseOrder")
     @ApiResponses(value = {
     @ApiResponse(code = 200, message = "confirmation that this order was successfully created", response = PostPurchaseOrderResponse.class),
@@ -43,12 +53,15 @@ public class PurchaseOrderController {
     @ApiResponse(code = 501, message = "Unknown Exception, investigation needed", response = PostPurchaseOrderResponse.class)})
     public ResponseEntity<PostPurchaseOrderResponse> createPurchaseOrder(@RequestBody @Valid PostPurchaseOrderRequest postPurchaseOrderRequest) {
 
+        logger.info(postPurchaseOrderRequest.toString());
         PostPurchaseOrderResponse postPurchaseOrderResponse = new PostPurchaseOrderResponse();
 
         List<String> errors = postPurchaseOrderValidator.validate(postPurchaseOrderRequest);
 
         if (errors.size() > 0) {
             postPurchaseOrderResponse.setErrors(errors);
+            logger.error(postPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(400).body(postPurchaseOrderResponse);
         }
 
@@ -59,18 +72,22 @@ public class PurchaseOrderController {
 
             postPurchaseOrderResponse.setPurchaseOrderId(purchaseOrderId);
 
+            logger.info(postPurchaseOrderResponse);
+            ThreadContext.clearMap();
             return ResponseEntity.status(200).body(postPurchaseOrderResponse);
 
         } catch (DataSaveException dataSaveException) {
 
             errors.add(dataSaveException.getMessage());
             postPurchaseOrderResponse.setErrors(errors);
-
+            logger.error(postPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(500).body(postPurchaseOrderResponse);
         } catch (Exception e) {
             errors.add(e.getMessage());
             postPurchaseOrderResponse.setErrors(errors);
-
+            logger.error(postPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(501).body(postPurchaseOrderResponse);
         }
 
@@ -91,15 +108,21 @@ public class PurchaseOrderController {
     public ResponseEntity<GetPurchaseOrderResponse> getMostRecentPurchaseOrder(@PathVariable String username) {
         GetPurchaseOrderResponse getPurchaseOrderResponse = new GetPurchaseOrderResponse();
 
+        logger.info(String.format("/purchaseOrder/%s", username));
+
         List<String> errors = new ArrayList<>();
 
         if (null == username || username.isEmpty()) {
             errors.add("Username is required");
             getPurchaseOrderResponse.setErrors(errors);
+            logger.error(getPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(400).body(getPurchaseOrderResponse);
         } else if (username.contains("<") || username.contains(">")) { //stopping any sort of scripting tag here
             errors.add("Username contains illegal characters");
             getPurchaseOrderResponse.setErrors(errors);
+            logger.error(getPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(400).body(getPurchaseOrderResponse);
         }
 
@@ -109,19 +132,27 @@ public class PurchaseOrderController {
             if (null == purchaseOrder) {
                 errors.add("User does not have any 'In Progress' purchase orders");
                 getPurchaseOrderResponse.setErrors(errors);
+                logger.error(getPurchaseOrderResponse.toString());
+                ThreadContext.clearMap();
                 return ResponseEntity.status(404).body(getPurchaseOrderResponse);
             }
 
             getPurchaseOrderResponse.setPurchaseOrder(purchaseOrder);
+            logger.info(getPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(200).body(getPurchaseOrderResponse);
 
         } catch (DataQueryException dataQueryException) {
             errors.add(dataQueryException.getMessage());
             getPurchaseOrderResponse.setErrors(errors);
+            logger.error(getPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(500).body(getPurchaseOrderResponse);
         } catch (Exception e) {
             errors.add(e.getMessage());
             getPurchaseOrderResponse.setErrors(errors);
+            logger.error(getPurchaseOrderResponse.toString());
+            ThreadContext.clearMap();
             return ResponseEntity.status(501).body(getPurchaseOrderResponse);
         }
 
@@ -144,10 +175,21 @@ public class PurchaseOrderController {
     public ResponseEntity<BaseResponse> savePurchaseOrder(@RequestBody @Valid PutPurchaseOrderSaveRequest putPurchaseOrderSaveRequest) {
         BaseResponse baseResponse = new BaseResponse();
 
-        List<String> errors = putPurchaseOrderSaveValidator.validate(putPurchaseOrderSaveRequest);
+        logger.info(putPurchaseOrderSaveRequest.toString());
+
+        List<String> errors = new ArrayList<>();
+        try {
+            putPurchaseOrderSaveValidator.validate(putPurchaseOrderSaveRequest);
+        } catch (Exception e) {
+            errors.add(e.getMessage());
+            baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
+            return ResponseEntity.status(500).body(baseResponse);
+        }
 
         if (errors.size() > 0) {
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(400).body(baseResponse);
         }
 
@@ -158,20 +200,24 @@ public class PurchaseOrderController {
                                                         putPurchaseOrderSaveRequest.getLineItems(),
                                                         putPurchaseOrderSaveRequest.getStatus());
             if (isDocumentUpdated) {
+                logger.info("completed");
                 return ResponseEntity.status(200).body(baseResponse);
             } else {
                 errors.add(String.format("Purchase Id: %s was not in 'In Progress' status", putPurchaseOrderSaveRequest.getPurchaseId()));
                 baseResponse.setErrors(errors);
+                logger.error(baseResponse.toString());
                 return ResponseEntity.status(404).body(baseResponse);
             }
 
         } catch (DataSaveException dataQueryException) {
             errors.add(dataQueryException.getMessage());
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(500).body(baseResponse);
         } catch (Exception e) {
             errors.add(e.getMessage());
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(501).body(baseResponse);
         }
 
@@ -192,15 +238,18 @@ public class PurchaseOrderController {
     public ResponseEntity<BaseResponse> cancelPurchaseOrder(@PathVariable String purchaseId) {
         BaseResponse baseResponse = new BaseResponse();
 
+        logger.info(String.format("/purchaseOrder/%s", purchaseId));
         List<String> errors = new ArrayList<>();
 
         if (null == purchaseId || purchaseId.isEmpty()) {
             errors.add("purchaseId is required");
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(400).body(baseResponse);
         } else if (purchaseId.contains("<") || purchaseId.contains(">")) { //stopping any sort of scripting tag here
             errors.add("purchaseId contains illegal characters");
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(400).body(baseResponse);
         }
 
@@ -209,20 +258,25 @@ public class PurchaseOrderController {
 
             boolean isDocumentUpdated = purchaseOrderService.cancelPurchaseOrder(purchaseId);
             if (isDocumentUpdated) {
+                logger.info (String.format("Cancel completed for %s", purchaseId));
                 return ResponseEntity.status(200).body(baseResponse);
             } else {
                 errors.add(String.format("Purchase Id: %s was not in 'In Progress' status", purchaseId));
                 baseResponse.setErrors(errors);
+                logger.error (String.format("Cancel error for %s", purchaseId));
+                logger.error(baseResponse.toString());
                 return ResponseEntity.status(404).body(baseResponse);
             }
 
         } catch (DataSaveException dataQueryException) {
             errors.add(dataQueryException.getMessage());
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(500).body(baseResponse);
         } catch (Exception e) {
             errors.add(e.getMessage());
             baseResponse.setErrors(errors);
+            logger.error(baseResponse.toString());
             return ResponseEntity.status(501).body(baseResponse);
         }
 
