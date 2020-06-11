@@ -1,11 +1,13 @@
 package com.yxj.ethoca.Request;
 
+import com.sun.istack.internal.NotNull;
 import com.yxj.ethoca.dto.PurchaseOrder;
 
 import javax.validation.Valid;
 
 public class PostPurchaseOrderRequest {
 
+    @NotNull
     @Valid
     private PurchaseOrder purchaseOrder;
 
