@@ -38,7 +38,8 @@ public class PurchaseOrderRepository {
             ObjectId id = new ObjectId();
 
             purchaseOrder.setId(id);
-            purchaseOrder.setStatus(PURCHASE_ORDER_STATUS_IN_PROGRESS);
+            //Could be a save or a direct purchase
+            purchaseOrder.setStatus(purchaseOrder.getStatus());
 
             collection.insertOne(purchaseOrder);
 
